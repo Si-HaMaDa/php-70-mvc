@@ -4,18 +4,9 @@ require __DIR__ . '/config.php';
 require __DIR__ . '/helpers.php';
 require __DIR__ . '/Database/DB.php';
 
-// Get the method name from the URL
-$route = $_SERVER['REQUEST_URI'];
-// Replace the Subfolder with an empty string
-$route = str_replace(SUB_DIR, '', $route);
-// Remove any query params
-$route = explode('?', $route)[0];
-// Remove the last slash
-$route = rtrim($route, '/');
-
 require './controllers/UserController.php';
 
-switch ($route) {
+switch (get_route()) {
         // Start Admin User Routes
     case '/admin/users':
         (new UserController())->index();
