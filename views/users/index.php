@@ -3,7 +3,7 @@
 <div class="content">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2">Users</h1>
-        <a class="btn btn-primary" href="./../controllers/add-user.php">Add User</a>
+        <a class="btn btn-primary" href="<?= make_url('/admin/users/add') ?>">Add User</a>
     </div>
     <table class="table table-striped table-sm">
         <thead>
@@ -24,13 +24,13 @@
                     <td><?= $user['email'] ?></td>
                     <td><?= $user['age'] ?></td>
                     <td>
-                        <a class="btn btn-primary" href="./../controllers/show-user.php?id=<?= $user['id'] ?>">
+                        <a class="btn btn-primary" href="<?= make_url('/admin/users/show?id=' . $user['id']) ?>">
                             <img src="https://cdn-icons-png.flaticon.com/512/709/709612.png" alt="Show" width="15">
                         </a>
-                        <a class="btn btn-warning" href="./../controllers/edit-user.php?id=<?= $user['id'] ?>">
+                        <a class="btn btn-warning" href="<?= make_url('/admin/users/edit?id=' . $user['id']) ?>">
                             <img src="https://cdn-icons-png.flaticon.com/512/1159/1159633.png" alt="Edit" width="15">
                         </a>
-                        <a class="btn btn-danger" href="./../controllers/delete-user.php?id=<?= $user['id'] ?>">
+                        <a class="btn btn-danger" href="<?= make_url('/admin/users/delete?id=' . $user['id']) ?>">
                             <img src="https://cdn-icons-png.flaticon.com/512/1214/1214428.png" alt="Delete" width="15">
                         </a>
                     </td>

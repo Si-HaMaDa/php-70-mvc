@@ -1,12 +1,10 @@
 <?php
 
-require __DIR__ . '/../models/model.php';
-
 class UserController
 {
     public function index()
     {
-        $db = new DB();
+        $db = DB::object();
 
         $users = $db->all('users');
 
@@ -23,14 +21,36 @@ class UserController
         require __DIR__ . '/../views/users/add.php';
     }
 
-    public function save()
+    public function store()
     {
-        var_dump($_POST);
+        if ($_SERVER['REQUEST_METHOD'] != 'POST') {
+            http_response_code(405);
+            echo "GET Method not allowed";
+            die();
+            return;
+        }
+
+        $user = [
+            'name' => $_POST['name'],
+            'email' => $_POST['email'],
+            'password' => $_POST['password'],
+            'gender' => $_POST['gender'],
+            'age' => $_POST['age'],
+            'title' => $_POST['title'],
+        ];
+
+        var_dump($user);
+        die();
+
+        $db = DB::object();
+        $db->insert('users', $user);
+
+        header('Location: ' . make_url('/admin/users'));
     }
 
     public function show()
     {
-        $db = new DB();
+        $db = DB::object();
 
         $id = (int)$_GET['id'];
 
@@ -42,11 +62,51 @@ class UserController
         require __DIR__ . '/../views/users/show.php';
     }
 
+    public function edit()
+    {
+        $id = (int)$_GET['id'];
+
+        $user = DB::object()->first('users', $id);
+
+        $title = 'Edit Customer';
+
+        require __DIR__ . '/../views/users/edit.php';
+    }
+
+    public function update()
+    {
+        if ($_SERVER['REQUEST_METHOD'] != 'POST') {
+            http_response_code(405);
+            echo "This page is only for POST requests";
+            die();
+            return;
+        }
+
+        $user = [
+            'name' => $_POST['name'],
+            'email' => $_POST['email'],
+            'password' => $_POST['password'],
+            'gender' => $_POST['gender'],
+            'age' => $_POST['age'],
+            'title' => $_POST['title'],
+        ];
+
+        (DB::object())->update('users', $user, ['id' => $_GET['id']]);
+
+        header('Location: ' . make_url('/admin/users'));
+    }
+    public function delete()
+    {
+        $id = (int)$_GET['id'];
+
+        (DB::object())->delete('users', $id);
+
+        header('Location: ' . make_url('/admin/users'));
+    }
+
     public function users_api()
     {
-        $db = new DB();
-
-        $users = $db->all('users');
+        $users = (DB::object())->all('users');
 
         header('Content-Type: application/json; charset=utf-8');
         echo json_encode($users);
