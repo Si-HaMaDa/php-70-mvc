@@ -2,15 +2,13 @@
 
 namespace App\Controllers;
 
-use App\Database\DB;
+use App\Models\User;
 
 class UserController
 {
     public function index()
     {
-        $db = DB::object();
-
-        $users = $db->all('users');
+        $users = (new User())->all();
 
         $title = 'Users';
 
@@ -49,19 +47,16 @@ class UserController
         var_dump($user);
         die();
 
-        $db = DB::object();
-        $db->insert('users', $user);
+        (new User())->insert($user);
 
         header('Location: ' . make_url('/admin/users'));
     }
 
     public function show()
     {
-        $db = DB::object();
-
         $id = (int)$_GET['id'];
 
-        $user = $db->first('users', $id);
+        $user = (new User())->first($id);
 
         $title = 'Show User';
         // var_dump($user);
@@ -78,7 +73,7 @@ class UserController
     {
         $id = (int)$_GET['id'];
 
-        $user = DB::object()->first('users', $id);
+        $user = (new User())->first($id);
 
         $title = 'Edit User';
 
@@ -104,7 +99,7 @@ class UserController
             'title' => $_POST['title'],
         ];
 
-        (DB::object())->update('users', $user, ['id' => $_GET['id']]);
+        (new User())->update($user, ['id' => $_GET['id']]);
 
         header('Location: ' . make_url('/admin/users'));
     }
@@ -112,14 +107,14 @@ class UserController
     {
         $id = (int)$_GET['id'];
 
-        (DB::object())->delete('users', $id);
+        (new User())->delete($id);
 
         header('Location: ' . make_url('/admin/users'));
     }
 
     public function users_api()
     {
-        $users = (DB::object())->all('users');
+        $users = (new User())->all();
 
         header('Content-Type: application/json; charset=utf-8');
         echo json_encode($users);
