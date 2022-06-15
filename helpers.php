@@ -83,12 +83,11 @@ if (!function_exists('set_session_message')) {
 }
 
 if (!function_exists('get_session_message')) {
-    function get_session_message($type)
+    function get_session_message($type, $clear = true)
     {
         if (!isset($_SESSION[$type])) return;
-
         $message = $_SESSION[$type];
-        unset($_SESSION[$type]);
+        if ($clear) unset($_SESSION[$type]);
         return $message;
     }
 }
@@ -101,9 +100,9 @@ if (!function_exists('set_session_error')) {
 }
 
 if (!function_exists('get_session_error')) {
-    function get_session_error()
+    function get_session_error($clear = true)
     {
-        return get_session_message('error');
+        return get_session_message('error', $clear);
     }
 }
 
@@ -115,9 +114,9 @@ if (!function_exists('set_session_success')) {
 }
 
 if (!function_exists('get_session_success')) {
-    function get_session_success()
+    function get_session_success($clear = true)
     {
-        return get_session_message('success');
+        return get_session_message('success', $clear);
     }
 }
 
