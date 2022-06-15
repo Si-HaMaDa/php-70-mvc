@@ -6,6 +6,9 @@
             "email": "nrookman_27@yahoo.com"
         }
     ],
+    "require": {
+        "fakerphp/faker": "^1.19"
+    },
     "autoload": {
         "files": [
             "wp-config.php",

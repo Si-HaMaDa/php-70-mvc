@@ -1,24 +1,12 @@
 <?php
 
-require_once __DIR__ . '/../config.php';
-require_once __DIR__ . '/DB.php';
-
-$db = DB::object();
-
-$files = glob(__DIR__ . '/Tables/*.php');
+require_once './../../vendor/autoload.php';
 
 echo '...' . PHP_EOL;
-foreach ($files as $file) {
-    if (!is_file(__DIR__ . '/Data/' . $file)) continue;
 
-    require_once __DIR__ . '/Data/' . $file;
-    try {
-        //code...
-        $db->connection->exec($sql);
-        echo "Table $file created\n";
-    } catch (\Throwable $th) {
-        echo "Error: Table $file created\n";
-        //throw $th;
-    }
-}
+// Set the seeders you need to run
+(new App\Database\Data\SeedCategoriesData())->run(20);
+(new App\Database\Data\SeedSkillsData())->run(20);
+(new App\Database\Data\SeedUsersData())->run(20);
+
 echo '...' . PHP_EOL;

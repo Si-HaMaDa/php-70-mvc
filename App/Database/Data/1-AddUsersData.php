@@ -1,5 +1,11 @@
 <?php
 
+use App\Database\DB;
+
+require_once __DIR__ . '/../../../vendor/autoload.php';
+
+$db = DB::object();
+
 if ($db->getWhere('users', ['email' => 'admin@admin.com'])) {
     echo "Admin user alraedy exist\n";
 } else {
@@ -26,6 +32,7 @@ try {
             'title' => 'Wedsite Manager',
         ]);
     }
+    echo "Succes: UsersSeeder Seeded Successfully!" . PHP_EOL;
 } catch (\Throwable $th) {
     echo "Error in UsersSeeder: " . $e->getMessage() . PHP_EOL;
     //throw $th;

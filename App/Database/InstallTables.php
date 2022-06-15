@@ -1,38 +1,41 @@
 <?php
 
-require_once __DIR__ . '/../config.php';
-require_once __DIR__ . '/DB.php';
+require_once './../../vendor/autoload.php';
 
-$db = DB::object();
+use App\Database\DB;
+
+echo '...' . PHP_EOL;
 
 // list only php files in the directory and reqiure them
-$files = scandir(__DIR__ . '/Tables');
 
-echo '...' . PHP_EOL;
-foreach ($files as $file) {
-    if (!is_file(__DIR__ . '/Tables/' . $file)) continue;
+/* First Way */
+$tables = scandir(__DIR__ . '/Tables/');
+foreach ($tables as $table) {
+    if (!is_file(__DIR__ . '/Tables/' . $table)) continue;
 
-    require_once __DIR__ . '/Tables/' . $file;
+    require __DIR__ . '/Tables/' . $table;
     try {
-        $db->connection->exec($sql);
-        echo "Succes: Table " . basename($file, '.php') . " Created Succesfully!\n";
-    } catch (\Throwable $th) {
-        echo "Error in " . basename($file, '.php') . ": " . $e->getMessage() . "\n";
+        DB::object()->connection->exec($sql);
+        echo "Succes: Table " . basename($table, '.php') . " Created Succesfully!" . PHP_EOL;
+    } catch (\PDOException $e) {
+        echo "Error in $table: " . $e->getMessage() . PHP_EOL;
     }
 }
-echo '...' . PHP_EOL;
 
 
 /* Another way  */
 
 /* // reqiure the files
-$files = glob(__DIR__ . '/Tables/*.php');
-foreach ($files as $file) {
-    require $file;
+$tables = glob(__DIR__ . '/Tables/*.php');
+foreach ($tables as $table) {
+    require $table;
     try {
         DB::object()->connection->exec($sql);
-        echo "Succes: Table " . basename($file, '.php') . " Created Succesfully!" . PHP_EOL;
+        echo "Succes: Table " . basename($table, '.php') . " Created Succesfully!" . PHP_EOL;
     } catch (PDOException $e) {
-        echo "Error in " . basename($file, '.php') . ": " . $e->getMessage() . PHP_EOL;
+        echo "Error in " . basename($table, '.php') . ": " . $e->getMessage() . PHP_EOL;
     }
 } */
+
+
+echo '...' . PHP_EOL;

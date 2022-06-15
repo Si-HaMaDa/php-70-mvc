@@ -7,14 +7,11 @@ use PDOException;
 
 class DB
 {
-    // singletone class
-    public $connection;
-
     /**
      * The Singleton's instance is stored in a static field.
      * You'll see how this works in a moment.
      */
-    private static $my_object = null;
+    private static $instances = null;
 
     /**
      * The Singleton's constructor should always be private to prevent direct
@@ -51,13 +48,21 @@ class DB
         throw new \Exception("Cannot unserialize a singleton.");
     }
 
+    /**
+     * This is the static method that controls the access to the singleton
+     * instance. On the first run, if empty it creates a singleton object and places it
+     * into the static field. On subsequent runs, it returns the client existing
+     * object stored in the static field.
+     */
     public static function object()
     {
-        if (self::$my_object == null) {
-            self::$my_object = new static();
+        if (is_null(self::$instances)) {
+            self::$instances = new static();
         }
-        return self::$my_object;
+        return self::$instances;
     }
+
+    public $connection;
 
     public function all($table)
     {
