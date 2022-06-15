@@ -14,7 +14,8 @@ switch (get_route()) {
         (new UserController())->add();
         break;
 
-    case '/admin/users/store':
+    case '/admin/users/store': // POST
+        check_allowed_methods('POST');
         (new UserController())->store();
         break;
 
@@ -26,7 +27,8 @@ switch (get_route()) {
         (new UserController())->edit();
         break;
 
-    case '/admin/users/update':
+    case '/admin/users/update': // POST
+        check_allowed_methods('POST');
         (new UserController())->update();
         break;
 

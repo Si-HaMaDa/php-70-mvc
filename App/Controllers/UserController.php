@@ -28,13 +28,6 @@ class UserController
 
     public function store()
     {
-        if ($_SERVER['REQUEST_METHOD'] != 'POST') {
-            http_response_code(405);
-            echo "GET Method not allowed";
-            die();
-            return;
-        }
-
         $user = [
             'name' => $_POST['name'],
             'email' => $_POST['email'],
@@ -83,13 +76,6 @@ class UserController
 
     public function update()
     {
-        if ($_SERVER['REQUEST_METHOD'] != 'POST') {
-            http_response_code(405);
-            echo "This page is only for POST requests";
-            die();
-            return;
-        }
-
         $user = [
             'name' => $_POST['name'],
             'email' => $_POST['email'],

@@ -38,3 +38,15 @@ if (!function_exists('get_route')) {
         return $route;
     }
 }
+
+if (!function_exists('check_allowed_methods')) {
+    function check_allowed_methods($methods)
+    {
+        if ($_SERVER['REQUEST_METHOD'] == $methods) return;
+
+        http_response_code(405);
+        echo "This page is only for $methods requests";
+        die();
+        return;
+    }
+}
