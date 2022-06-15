@@ -2,7 +2,7 @@
 
 <div class="content">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Add Customer</h1>
+        <h1 class="h2">Add Users</h1>
     </div>
     <form class="card row g-3 my-3" method="post" action="<?= make_url('/admin/users/store') ?>">
         <div class="card-body row">
@@ -27,6 +27,25 @@
                 <input type="password" class="form-control" id="password" name="password" placeholder="" required>
                 <div class="invalid-feedback">
                     Please enter a valid password.
+                </div>
+            </div>
+
+            <div class="col-12">
+                <label for="password_confirmation" class="form-label">Password Confirmation</label>
+                <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" placeholder="" required>
+                <div class="invalid-feedback">
+                    Please enter a valid password_confirmation.
+                </div>
+            </div>
+
+            <div class="col-12">
+                <label for="role" class="form-label">Role</label>
+                <select class="form-select" name="role" id="role" required>
+                    <option value="user">User</option>
+                    <option value="admin">Admin</option>
+                </select>
+                <div class="invalid-feedback">
+                    Valid Role is required.
                 </div>
             </div>
 

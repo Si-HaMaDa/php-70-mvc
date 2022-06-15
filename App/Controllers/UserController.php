@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\User;
+use App\Validations\Validations;
 
 class UserController
 {
@@ -28,21 +29,48 @@ class UserController
 
     public function store()
     {
-        $user = [
-            'name' => $_POST['name'],
-            'email' => $_POST['email'],
-            'password' => $_POST['password'],
-            'gender' => $_POST['gender'],
-            'age' => $_POST['age'],
-            'title' => $_POST['title'],
+        $validated = [
+            'name' => (new Validations($_POST['name']))
+                ->notEmpty()
+                ->isName(),
+
+            'email' => (new Validations($_POST['email']))
+                ->notEmpty()
+                ->isEmail(),
+
+            'password' => (new Validations($_POST['password']))
+                ->notEmpty()
+                ->min(6)
+                ->max(25)
+                ->confirmed($_POST['password_confirmation']),
+
+            'role' => (new Validations($_POST['role']))
+                ->notEmpty()
+                ->isIn(['user', 'admin']),
+
+            'gender' => (new Validations($_POST['gender']))
+                ->notEmpty()
+                ->isIn(['m', 'f']),
+
+            'age' => (new Validations($_POST['age']))
+                ->notEmpty()
+                ->isInteger(),
+
+            'title' => (new Validations($_POST['title']))
+                ->notEmpty()
+                ->isName(),
         ];
 
-        var_dump($user);
-        die();
+        $user = check_validation_and_get_data($validated);
+
+        $user['password'] = sha1($user['password']);
 
         (new User())->insert($user);
 
-        header('Location: ' . make_url('/admin/users'));
+        redirect_with_msg(
+            make_url('/admin/users'),
+            ['success' => 'User added successfully']
+        );
     }
 
     public function show()
@@ -50,6 +78,12 @@ class UserController
         $id = (int)$_GET['id'];
 
         $user = (new User())->first($id);
+
+        if (!$user)
+            redirect_with_msg(
+                make_url('/admin/users'),
+                ['error' => 'User not found']
+            );
 
         $title = 'Show User';
         // var_dump($user);
@@ -76,26 +110,65 @@ class UserController
 
     public function update()
     {
-        $user = [
-            'name' => $_POST['name'],
-            'email' => $_POST['email'],
-            'password' => $_POST['password'],
-            'gender' => $_POST['gender'],
-            'age' => $_POST['age'],
-            'title' => $_POST['title'],
+
+        $validated = [
+            'name' => (new Validations($_POST['name']))
+                ->notEmpty()
+                ->isName(),
+
+            'email' => (new Validations($_POST['email']))
+                ->notEmpty()
+                ->isEmail(),
+
+            'gender' => (new Validations($_POST['gender']))
+                ->notEmpty()
+                ->isIn(['m', 'f']),
+
+            'role' => (new Validations($_POST['role']))
+                ->notEmpty()
+                ->isIn(['user', 'admin']),
+
+            'age' => (new Validations($_POST['age']))
+                ->notEmpty()
+                ->isInteger(),
+
+            'title' => (new Validations($_POST['title']))
+                ->notEmpty()
+                ->isName(),
         ];
+
+        if ($_POST['password'])
+            $validated['password'] = (new Validations($_POST['password']))
+                ->notEmpty()
+                ->min(6)
+                ->max(25)
+                ->confirmed($_POST['password_confirmation']);
+
+        $user = check_validation_and_get_data($validated);
 
         (new User())->update($user, ['id' => $_GET['id']]);
 
-        header('Location: ' . make_url('/admin/users'));
+        redirect_with_msg(
+            make_url('/admin/users'),
+            ['success' => 'User updated successfully']
+        );
     }
     public function delete()
     {
-        $id = (int)$_GET['id'];
+        if (is_array($_GET['id'])) {
+            foreach ($_GET['id'] as $id) {
+                $id = (int)$id;
+                (new User())->delete($id);
+            }
+        } else {
+            $id = (int)$_GET['id'];
+            (new User())->delete($id);
+        }
 
-        (new User())->delete($id);
-
-        header('Location: ' . make_url('/admin/users'));
+        redirect_with_msg(
+            make_url('/admin/users'),
+            ['success' => 'User deleted successfully']
+        );
     }
 
     public function users_api()

@@ -31,6 +31,14 @@
             </div>
 
             <div class="col-12">
+                <label for="password_confirmation" class="form-label">Password Confirmation</label>
+                <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" placeholder="">
+                <div class="invalid-feedback">
+                    Please enter a valid password_confirmation.
+                </div>
+            </div>
+
+            <div class="col-12">
                 <label for="gender" class="form-label">Gender</label>
                 <select class="form-select" name="gender" id="gender" placeholder="Gender" value="<?= $user['gender'] ?>" required>
                     <option value="m">Male</option>
