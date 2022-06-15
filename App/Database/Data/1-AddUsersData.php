@@ -24,12 +24,12 @@ if ($db->getWhere('users', ['email' => 'admin@admin.com'])) {
 try {
     for ($i = 0; $i < 10; $i++) {
         $db->insert('users', [
-            'name' => time(),
+            'name' => $i . time(),
             'email' => $i . time() . '@admin.com',
             'password' => sha1('password'),
-            'gender' => 'm',
-            'age' => 50,
-            'title' => 'Wedsite Manager',
+            'gender' => ['m', 'f'][random_int(0, 1)],
+            'age' => random_int(20, 60),
+            'title' => 'Web Developer',
         ]);
     }
     echo "Succes: UsersSeeder Seeded Successfully!" . PHP_EOL;
