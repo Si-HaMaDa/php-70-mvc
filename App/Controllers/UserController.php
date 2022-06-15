@@ -1,5 +1,9 @@
 <?php
 
+namespace App\Controllers;
+
+use App\Database\DB;
+
 class UserController
 {
     public function index()
@@ -9,16 +13,19 @@ class UserController
         $users = $db->all('users');
 
         $title = 'Users';
-        // var_dump($users);
 
-        require __DIR__ . './../views/users/index.php';
+        require get_view_dir('users/index');
+        // require __DIR__ . './../views/users/index.php';
     }
 
     public function add()
     {
-        $title = 'Add Customer';
-
-        require __DIR__ . '/../views/users/add.php';
+        $title = 'Add User';
+        require get_view_dir('users/add');
+        // get_view('users/add', [
+        //     'title' => $title
+        // ]);
+        // require __DIR__ . '/../views/users/add.php';
     }
 
     public function store()
@@ -59,7 +66,12 @@ class UserController
         $title = 'Show User';
         // var_dump($user);
 
-        require __DIR__ . '/../views/users/show.php';
+        require get_view_dir('users/show');
+        // get_view('users/show', [
+        //     'title' => $title,
+        //     'user' => $user
+        // ]);
+        // require __DIR__ . '/../views/users/show.php';
     }
 
     public function edit()
@@ -68,9 +80,10 @@ class UserController
 
         $user = DB::object()->first('users', $id);
 
-        $title = 'Edit Customer';
+        $title = 'Edit User';
 
-        require __DIR__ . '/../views/users/edit.php';
+        require get_view_dir('users/edit');
+        // require __DIR__ . '/../views/users/edit.php';
     }
 
     public function update()

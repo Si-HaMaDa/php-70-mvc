@@ -1,4 +1,4 @@
-<?php require __DIR__ . '/../layout/header.php'; ?>
+<?php require get_view_dir('layout/header') ?>
 
 <div class="content">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
@@ -41,4 +41,4 @@
     </table>
 </div>
 
-<?php require __DIR__ . '/../layout/footer.php'; ?>
+<?php require get_view_dir('layout/footer') ?>

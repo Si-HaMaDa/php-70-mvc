@@ -1,12 +1,8 @@
 <?php
 
-define('DB_TYPE', "mysql");
-define('DB_HOST', "localhost");
-define('DB_USER_NAME', "root");
-define('DB_PASSWORD', "root");
-define('DB_NAME', "php70");
+namespace App\Models;
 
-class DB
+class MainModel
 {
     public $connection;
     public function __construct()

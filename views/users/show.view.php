@@ -1,4 +1,4 @@
-<?php require __DIR__ . '/../layout/header.php'; ?>
+<?php require get_view_dir('layout/header') ?>
 
 <div class="content">
     <div class="card row g-3 my-3" method="post">
@@ -50,4 +50,4 @@
     </div>
 </div>
 
-<?php require __DIR__ . '/../layout/footer.php'; ?>
+<?php require get_view_dir('layout/footer') ?>

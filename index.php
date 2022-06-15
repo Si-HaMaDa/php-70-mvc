@@ -1,10 +1,8 @@
 <?php
 
-require __DIR__ . '/config.php';
-require __DIR__ . '/helpers.php';
-require __DIR__ . '/Database/DB.php';
+require __DIR__ . '/vendor/autoload.php';
 
-require './controllers/UserController.php';
+use App\Controllers\UserController;
 
 switch (get_route()) {
         // Start Admin User Routes
@@ -42,6 +40,6 @@ switch (get_route()) {
 
     default:
         http_response_code(404);
-        include './views/404.view.php';
+        get_view('404');
         break;
 }

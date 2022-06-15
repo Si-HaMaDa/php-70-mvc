@@ -2,25 +2,25 @@
     <div class="position-sticky pt-3">
         <ul class="nav flex-column">
             <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="./../controllers">
+                <a class="nav-link active" aria-current="page" href="<?= make_url('/admin') ?>">
                     <span data-feather="home"></span>
                     Dashboard
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="./../controllers/orders.php">
+                <a class="nav-link" href="<?= make_url('/admin/orders') ?>">
                     <span data-feather="file"></span>
                     Orders
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="./../controllers/products.php">
+                <a class="nav-link" href="<?= make_url('/products') ?>">
                     <span data-feather="shopping-cart"></span>
                     Products
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="./../controllers/users.php">
+                <a class="nav-link" href="<?= make_url('/admin/users') ?>">
                     <span data-feather="users"></span>
                     Users
                 </a>
