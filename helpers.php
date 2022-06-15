@@ -1,9 +1,10 @@
 <?php
 
-if (!function_exists('make_url')) {
-    function make_url($url)
+if (!function_exists('get_view')) {
+    function get_view($view, $data = [])
     {
-        return FULL_URL . $url;
+        extract($data);
+        require __DIR__ . '/views/' . $view . '.view.php';
     }
 }
 
@@ -14,12 +15,10 @@ if (!function_exists('get_view_dir')) {
     }
 }
 
-if (!function_exists('get_view')) {
-    function get_view($view, $data = [])
+if (!function_exists('make_url')) {
+    function make_url($url)
     {
-        extract($data);
-        require get_view_dir($view);
-        die();
+        return FULL_URL . $url;
     }
 }
 
@@ -39,57 +38,12 @@ if (!function_exists('get_route')) {
     }
 }
 
-if (!function_exists('check_allowed_methods')) {
-    function check_allowed_methods($methods)
+if (!function_exists('check_allowed_method')) {
+    function check_allowed_method($method)
     {
-        if ($_SERVER['REQUEST_METHOD'] == $methods) return;
-
+        if ($_SERVER['REQUEST_METHOD'] == $method) return;
         http_response_code(405);
-        echo "This page is only for $methods requests";
-        die();
-        return;
-    }
-}
-
-if (!function_exists('set_session_message')) {
-    function set_session_message($type, $message)
-    {
-        $_SESSION[$type] = $message;
-    }
-}
-
-if (!function_exists('set_success_message')) {
-    function set_success_message($message)
-    {
-        set_session_message('success', $message);
-    }
-}
-
-if (!function_exists('set_error_message')) {
-    function set_error_message($message)
-    {
-        set_session_message('error', $message);
-    }
-}
-
-if (!function_exists('get_error_message')) {
-    function get_error_message($remove = true)
-    {
-        $error = $_SESSION['error'];
-        if ($remove) unset($_SESSION['error']);
-        return $error;
-    }
-}
-
-if (!function_exists('redirect_with_msg')) {
-    function redirect_with_msg($url, $messages = [])
-    {
-        if (!empty($messages)) {
-            foreach ($messages as $key => $value) {
-                set_session_message($key, $value);
-            }
-        }
-        header('Location: ' . $url);
+        echo "This page is only for $method requests";
         die();
     }
 }
@@ -118,5 +72,75 @@ if (!function_exists('check_validation_and_get_data')) {
         }
 
         return $data;
+    }
+}
+
+if (!function_exists('set_session_message')) {
+    function set_session_message($type, $message)
+    {
+        $_SESSION[$type] = $message;
+    }
+}
+
+if (!function_exists('get_session_message')) {
+    function get_session_message($type)
+    {
+        if (!isset($_SESSION[$type])) return;
+
+        $message = $_SESSION[$type];
+        unset($_SESSION[$type]);
+        return $message;
+    }
+}
+
+if (!function_exists('set_session_error')) {
+    function set_session_error($message)
+    {
+        set_session_message('error', $message);
+    }
+}
+
+if (!function_exists('get_session_error')) {
+    function get_session_error()
+    {
+        return get_session_message('error');
+    }
+}
+
+if (!function_exists('set_session_success')) {
+    function set_session_success($message)
+    {
+        set_session_message('success', $message);
+    }
+}
+
+if (!function_exists('get_session_success')) {
+    function get_session_success()
+    {
+        return get_session_message('success');
+    }
+}
+
+if (!function_exists('redirect_with_msg')) {
+    function redirect_with_msgs($url, $messages = [])
+    {
+        if (!empty($messages)) {
+            foreach ($messages as $type => $text) {
+                set_session_message($type, $text);
+            }
+        }
+        header('Location: ' . $url);
+        die();
+    }
+}
+
+if (!function_exists('get_old_value')) {
+    function get_old_value($key)
+    {
+        if (!isset($_SESSION['old'][$key])) return;
+
+        $value = $_SESSION['old'][$key];
+        unset($_SESSION['old'][$key]);
+        return $value ?? '';
     }
 }

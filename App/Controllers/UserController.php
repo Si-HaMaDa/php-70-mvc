@@ -14,17 +14,20 @@ class UserController
         $title = 'Users';
 
         require get_view_dir('users/index');
-        // require __DIR__ . './../views/users/index.php';
+        // get_view('users/index', [
+        //     'users' => $users,
+        //     'title' => $title,
+        // ]);
     }
 
-    public function add()
+    public function create()
     {
         $title = 'Add User';
-        require get_view_dir('users/add');
-        // get_view('users/add', [
-        //     'title' => $title
+
+        require get_view_dir('users/create');
+        // get_view('users/create', [
+        //     'title' => $title,
         // ]);
-        // require __DIR__ . '/../views/users/add.php';
     }
 
     public function store()
@@ -41,7 +44,7 @@ class UserController
             'password' => (new Validations($_POST['password']))
                 ->notEmpty()
                 ->min(6)
-                ->max(25)
+                ->max(30)
                 ->confirmed($_POST['password_confirmation']),
 
             'role' => (new Validations($_POST['role']))
@@ -67,9 +70,9 @@ class UserController
 
         (new User())->insert($user);
 
-        redirect_with_msg(
+        redirect_with_msgs(
             make_url('/admin/users'),
-            ['success' => 'User added successfully']
+            ['success' => 'User added successfully.']
         );
     }
 
@@ -80,20 +83,15 @@ class UserController
         $user = (new User())->first($id);
 
         if (!$user)
-            redirect_with_msg(
-                make_url('/admin/users'),
-                ['error' => 'User not found']
-            );
+            redirect_with_msgs(make_url('/admin/users'), ['error' => 'User not found.']);
 
         $title = 'Show User';
-        // var_dump($user);
 
         require get_view_dir('users/show');
         // get_view('users/show', [
+        //     'user' => $user,
         //     'title' => $title,
-        //     'user' => $user
         // ]);
-        // require __DIR__ . '/../views/users/show.php';
     }
 
     public function edit()
@@ -102,14 +100,20 @@ class UserController
 
         $user = (new User())->first($id);
 
+        if (!$user)
+            redirect_with_msgs(make_url('/admin/users'), ['error' => 'User not found.']);
+
         $title = 'Edit User';
 
         require get_view_dir('users/edit');
-        // require __DIR__ . '/../views/users/edit.php';
+        // get_view('users/create', [
+        //     'title' => $title,
+        // ]);
     }
 
     public function update()
     {
+        $id = (int)$_GET['id'];
 
         $validated = [
             'name' => (new Validations($_POST['name']))
@@ -120,13 +124,13 @@ class UserController
                 ->notEmpty()
                 ->isEmail(),
 
-            'gender' => (new Validations($_POST['gender']))
-                ->notEmpty()
-                ->isIn(['m', 'f']),
-
             'role' => (new Validations($_POST['role']))
                 ->notEmpty()
                 ->isIn(['user', 'admin']),
+
+            'gender' => (new Validations($_POST['gender']))
+                ->notEmpty()
+                ->isIn(['m', 'f']),
 
             'age' => (new Validations($_POST['age']))
                 ->notEmpty()
@@ -137,26 +141,31 @@ class UserController
                 ->isName(),
         ];
 
-        if ($_POST['password'])
+        if ($_POST['password']) {
             $validated['password'] = (new Validations($_POST['password']))
                 ->notEmpty()
                 ->min(6)
-                ->max(25)
+                ->max(30)
                 ->confirmed($_POST['password_confirmation']);
+        }
 
         $user = check_validation_and_get_data($validated);
 
-        (new User())->update($user, ['id' => $_GET['id']]);
+        $user['password'] = sha1($user['password']);
 
-        redirect_with_msg(
+        (new User())->update($user, ['id' => $id]);
+
+        redirect_with_msgs(
             make_url('/admin/users'),
-            ['success' => 'User updated successfully']
+            ['success' => 'User updated successfully.']
         );
     }
+
+
     public function delete()
     {
-        if (is_array($_GET['id'])) {
-            foreach ($_GET['id'] as $id) {
+        if (is_array($_POST['id'])) {
+            foreach ($_POST['id'] as $id) {
                 $id = (int)$id;
                 (new User())->delete($id);
             }
@@ -165,9 +174,9 @@ class UserController
             (new User())->delete($id);
         }
 
-        redirect_with_msg(
+        redirect_with_msgs(
             make_url('/admin/users'),
-            ['success' => 'User deleted successfully']
+            ['success' => 'User deleted successfully.']
         );
     }
 
@@ -179,13 +188,3 @@ class UserController
         echo json_encode($users);
     }
 }
-
-
-/* $index_name = $_GET['method'];
-
-$controller = new UserController();
-
-// var_dump($controller);
-// echo '<br>';
-
-$controller->$index_name(); */

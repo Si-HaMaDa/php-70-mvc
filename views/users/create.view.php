@@ -1,8 +1,12 @@
-<?php require get_view_dir('layout/header') ?>
+<?php require get_view_dir('layout/header'); ?>
 
 <div class="content">
+
+    <!-- Show Errors if exists -->
+    <?php include get_view_dir('layout/parts/show-errors'); ?>
+
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Add Users</h1>
+        <h1 class="h2">Add Customer</h1>
     </div>
     <form class="card row g-3 my-3" method="post" action="<?= make_url('/admin/users/store') ?>">
         <div class="card-body row">
@@ -83,4 +87,4 @@
     </form>
 </div>
 
-<?php require get_view_dir('layout/footer') ?>
+<?php require get_view_dir('layout/footer'); ?>

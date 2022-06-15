@@ -1,6 +1,10 @@
-<?php require get_view_dir('layout/header') ?>
+<?php require get_view_dir('layout/header'); ?>
 
 <div class="content">
+
+    <!-- Show Errors if exists -->
+    <?php include get_view_dir('layout/parts/show-errors'); ?>
+
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2">Add Customer</h1>
     </div>
@@ -39,6 +43,17 @@
             </div>
 
             <div class="col-12">
+                <label for="role" class="form-label">Role</label>
+                <select class="form-select" name="role" id="role" required>
+                    <option <?= $user['role'] == 'user' ? 'selected' : '' ?> value="user">User</option>
+                    <option <?= $user['role'] == 'admin' ? 'selected' : '' ?> value="admin">Admin</option>
+                </select>
+                <div class="invalid-feedback">
+                    Valid Role is required.
+                </div>
+            </div>
+
+            <div class="col-12">
                 <label for="gender" class="form-label">Gender</label>
                 <select class="form-select" name="gender" id="gender" placeholder="Gender" value="<?= $user['gender'] ?>" required>
                     <option value="m">Male</option>
@@ -72,4 +87,4 @@
     </form>
 </div>
 
-<?php require get_view_dir('layout/footer') ?>
+<?php require get_view_dir('layout/footer'); ?>

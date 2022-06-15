@@ -2,20 +2,23 @@
 
 require __DIR__ . '/vendor/autoload.php';
 
+// Using needed Contollers
 use App\Controllers\UserController;
 
+// Start routing
 switch (get_route()) {
+        // Start Admin Routes
         // Start Admin User Routes
     case '/admin/users':
         (new UserController())->index();
         break;
 
-    case '/admin/users/add':
-        (new UserController())->add();
+    case '/admin/users/create':
+        (new UserController())->create();
         break;
 
     case '/admin/users/store': // POST
-        check_allowed_methods('POST');
+        check_allowed_method('POST');
         (new UserController())->store();
         break;
 
@@ -28,17 +31,14 @@ switch (get_route()) {
         break;
 
     case '/admin/users/update': // POST
-        check_allowed_methods('POST');
+        check_allowed_method('POST');
         (new UserController())->update();
         break;
 
     case '/admin/users/delete':
         (new UserController())->delete();
         break;
-        // END Admin User Routes
-
-        // Start admin Jobs Routes
-        // END admin Jobs Routes
+        // End Admin User Routes
 
     default:
         http_response_code(404);

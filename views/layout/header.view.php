@@ -57,7 +57,7 @@
         <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
         <div class="navbar-nav">
             <div class="nav-item text-nowrap">
-                <a class="nav-link px-3" href="/logout.php">Sign out</a>
+                <a class="nav-link px-3" href="<?= make_url('/logout') ?>">Sign out</a>
             </div>
         </div>
     </header>
@@ -65,8 +65,9 @@
     <div class="container-fluid">
         <div class="row">
 
-            <?php require get_view_dir('layout/sidebar') ?>
+            <?php include get_view_dir('layout/sidebar'); ?>
 
             <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
 
-                <?php require get_view_dir('layout/parts/get-session-message') ?>
+                <!-- Show session messages if exists -->
+                <?php include get_view_dir('layout/parts/show-session-message'); ?>

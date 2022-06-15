@@ -1,12 +1,16 @@
-<?php require get_view_dir('layout/header') ?>
+<?php require get_view_dir('layout/header'); ?>
 
 <div class="content">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2">Users</h1>
-        <a class="btn btn-primary" href="<?= make_url('/admin/users/add') ?>">Add User</a>
+        <a class="btn btn-primary" href="<?= make_url('/admin/users/create') ?>">Add User</a>
     </div>
-    <form action="<?= make_url('/admin/users/delete') ?>" method="get">
-    <button>Delete</button>
+    <form action="<?= make_url('/admin/users/delete') ?>" method="POST">
+        <span>
+            <input type="checkbox" id="select-all" />
+            <label for="select-all">Select All</label>
+        </span>
+        <button class="btn btn-sm btn-danger float-end" id="confirmDelete">Bulk Delete</button>
         <table class="table table-striped table-sm">
             <thead>
                 <tr>
@@ -23,10 +27,18 @@
 
                     <tr>
                         <td>
-                            <input type="checkbox" name="id[]" value="<?= $user['id'] ?>" />
+                            <input type="checkbox" name="id[]" value="<?= $user['id'] ?>" id="user-<?= $user['id'] ?>" />
                         </td>
-                        <td><?= $user['id'] ?></td>
-                        <td><?= $user['name'] ?></td>
+                        <td>
+                            <label for="user-<?= $user['id'] ?>">
+                                <?= $user['id'] ?>
+                            </label>
+                        </td>
+                        <td>
+                            <label for="user-<?= $user['id'] ?>">
+                                <?= $user['name'] ?>
+                            </label>
+                        </td>
                         <td><?= $user['email'] ?></td>
                         <td><?= $user['age'] ?></td>
                         <td>
@@ -48,4 +60,17 @@
     </form>
 </div>
 
-<?php require get_view_dir('layout/footer') ?>
+<script>
+    document.getElementById('confirmDelete').addEventListener('click', function(e) {
+        if (!confirm('Are you sure you want to delete these users?'))
+            e.preventDefault();
+    });
+    document.getElementById('select-all').addEventListener('click', function(e) {
+        var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        checkboxes.forEach(function(checkbox) {
+            checkbox.checked = e.target.checked;
+        });
+    });
+</script>
+
+<?php require get_view_dir('layout/footer'); ?>

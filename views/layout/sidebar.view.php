@@ -14,7 +14,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="<?= make_url('/products') ?>">
+                <a class="nav-link" href="<?= make_url('/admin/products') ?>">
                     <span data-feather="shopping-cart"></span>
                     Products
                 </a>
