@@ -4,10 +4,22 @@ require __DIR__ . '/vendor/autoload.php';
 
 // Using needed Contollers
 use App\Controllers\AdminController;
+use App\Controllers\AuthController;
 use App\Controllers\UserController;
 
 // Start routing
 switch (get_route()) {
+
+
+        // Auth routes
+    case '/register':
+        (new AuthController())->register();
+        break;
+
+    case '/login':
+        (new AuthController())->login();
+        break;
+
         // Start Admin Routes
 
     case '/admin':
