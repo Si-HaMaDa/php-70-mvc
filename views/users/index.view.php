@@ -1,4 +1,6 @@
-<?php require get_view_dir('layout/header'); ?>
+<?php
+
+require get_view_dir('layout/header'); ?>
 
 <div class="content">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
@@ -19,6 +21,7 @@
                     <th>Name</th>
                     <th>Email</th>
                     <th>Age</th>
+                    <th>image</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -41,6 +44,9 @@
                         </td>
                         <td><?= $user['email'] ?></td>
                         <td><?= $user['age'] ?></td>
+                        <td>
+                            <img width="200" src="<?= App\Models\User::get_image($user) ?>" alt="" srcset="">
+                        </td>
                         <td>
                             <a class="btn btn-primary" href="<?= make_url('/admin/users/show?id=' . $user['id']) ?>">
                                 <img src="https://cdn-icons-png.flaticon.com/512/709/709612.png" alt="Show" width="15">

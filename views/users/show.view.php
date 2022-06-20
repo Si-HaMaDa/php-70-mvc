@@ -46,6 +46,13 @@
                 </div>
             </div>
 
+            <div class="col-12 mb-4 row">
+                <label class="col-md-2">Image</label>
+                <div class="col-md-10">
+                    : <img width="50%" src="<?= App\Models\User::get_image($user) ?>" alt="" srcset="">
+                </div>
+            </div>
+
         </div>
     </div>
 </div>

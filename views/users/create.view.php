@@ -82,6 +82,14 @@
                 </div>
             </div>
 
+            <div class="col-12">
+                <label for="image" class="form-label">Image</label>
+                <input type="file" class="form-control" id="image" name="image" aria-label="Image" value="<?= get_old_value('image') ?>">
+                <div class="invalid-feedback">
+                    Valid Image is required.
+                </div>
+            </div>
+
             <hr class="my-4">
 
             <button class="w-100 btn btn-primary btn-lg" type="submit">Save</button>

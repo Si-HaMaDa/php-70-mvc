@@ -62,11 +62,21 @@ class UserController
             'title' => (new Validations($_POST['title']))
                 ->notEmpty()
                 ->isName(),
+
+            'image' => (new Validations($_FILES['image']))
+                ->isFile()
+                ->fileSize(600)
+                ->isImage()
+                ->extensionIn(['jpg', 'png', 'jpeg'])
+                ->isNullable(),
         ];
 
         $user = check_validation_and_get_data($validated);
 
         $user['password'] = sha1($user['password']);
+
+        if ($user['image']) $user['image'] = User::upload_image($user['image']);
+        else unset($user['image']);
 
         (new User())->insert($user);
 
@@ -139,6 +149,13 @@ class UserController
             'title' => (new Validations($_POST['title']))
                 ->notEmpty()
                 ->isName(),
+
+            'image' => (new Validations($_FILES['image']))
+                ->isFile()
+                ->fileSize(600)
+                ->isImage()
+                ->extensionIn(['jpg', 'png', 'jpeg'])
+                ->isNullable(),
         ];
 
         if ($_POST['password']) {
@@ -153,6 +170,9 @@ class UserController
 
         $user['password'] = sha1($user['password']);
 
+        if ($user['image']) $user['image'] = User::upload_image($user['image'], $id);
+        else unset($user['image']);
+
         (new User())->update($user, ['id' => $id]);
 
         redirect_with_msgs(
@@ -164,7 +184,7 @@ class UserController
 
     public function delete()
     {
-        if (is_array($_POST['id'])) {
+        if (isset($_POST['id']) && is_array($_POST['id'])) {
             foreach ($_POST['id'] as $id) {
                 $id = (int)$id;
                 (new User())->delete($id);
