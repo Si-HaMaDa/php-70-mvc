@@ -2,11 +2,56 @@
 
 namespace App\Controllers;
 
+use App\Models\User;
+use App\Validations\Validations;
+
 class AuthController
 {
     public function register()
     {
         require get_view_dir('auth/register');
+    }
+
+    public function do_register()
+    {
+        $validated = [
+            'name' => (new Validations($_POST['name']))
+                ->notEmpty()
+                ->isName(),
+
+            'email' => (new Validations($_POST['email']))
+                ->notEmpty()
+                ->isEmail(),
+
+            'password' => (new Validations($_POST['password']))
+                ->notEmpty()
+                ->min(6)
+                ->max(30)
+                ->confirmed($_POST['password_confirmation']),
+
+            'gender' => (new Validations($_POST['gender']))
+                ->notEmpty()
+                ->isIn(['m', 'f']),
+
+            'age' => (new Validations($_POST['age']))
+                ->notEmpty()
+                ->isInteger(),
+
+            'title' => (new Validations($_POST['title']))
+                ->notEmpty()
+                ->isName(),
+        ];
+
+        $user = check_validation_and_get_data($validated);
+
+        $user['password'] = sha1($user['password']);
+
+        (new User())->insert($user);
+
+        redirect_with_msgs(
+            make_url('/login'),
+            ['success' => 'Registered successfully, You can login now!']
+        );
     }
 
     public function login()

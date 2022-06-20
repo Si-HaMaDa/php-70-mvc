@@ -16,6 +16,10 @@ switch (get_route()) {
         (new AuthController())->register();
         break;
 
+    case '/do-register':
+        (new AuthController())->do_register();
+        break;
+
     case '/login':
         (new AuthController())->login();
         break;
