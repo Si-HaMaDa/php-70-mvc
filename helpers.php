@@ -134,12 +134,14 @@ if (!function_exists('redirect_with_msg')) {
 }
 
 if (!function_exists('get_old_value')) {
-    function get_old_value($key)
+    function get_old_value($key, $clear = true)
     {
         if (!isset($_SESSION['old'][$key])) return;
 
         $value = $_SESSION['old'][$key];
-        unset($_SESSION['old'][$key]);
+        
+        if ($clear) unset($_SESSION['old'][$key]);
+
         return $value ?? '';
     }
 }
