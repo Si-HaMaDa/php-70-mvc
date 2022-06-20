@@ -28,7 +28,7 @@ abstract class MainModel
         return $sql->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function first($id)
+    public function find($id)
     {
         // SELECT column_name(s) FROM table_name WHERE id = value  
         $query = "SELECT * FROM $this->table WHERE id = :id";
@@ -38,9 +38,9 @@ abstract class MainModel
         return $sql->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function firstRow($condition)
+    public function first($condition)
     {
-        return $this->getWhere($condition)[0];
+        return $this->getWhere($condition)[0] ?? null;
     }
 
     public function getWhere($condition)

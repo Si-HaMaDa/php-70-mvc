@@ -40,7 +40,7 @@ class User extends MainModel
 
     public static function delete_image($id)
     {
-        $user = (new User())->first($id);
+        $user = (new User())->find($id);
         $path = MAIN_DIR . self::UP_IMG_DIR . $user['image'];
         unlink($path);
     }

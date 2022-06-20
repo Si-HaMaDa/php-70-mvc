@@ -90,7 +90,7 @@ class UserController
     {
         $id = (int)$_GET['id'];
 
-        $user = (new User())->first($id);
+        $user = (new User())->find($id);
 
         if (!$user)
             redirect_with_msgs(make_url('/admin/users'), ['error' => 'User not found.']);
@@ -108,7 +108,7 @@ class UserController
     {
         $id = (int)$_GET['id'];
 
-        $user = (new User())->first($id);
+        $user = (new User())->find($id);
 
         if (!$user)
             redirect_with_msgs(make_url('/admin/users'), ['error' => 'User not found.']);

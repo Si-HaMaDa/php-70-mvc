@@ -73,7 +73,7 @@ class DB
         return $sql->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function first($table, $id)
+    public function find($table, $id)
     {
         // SELECT column_name(s) FROM table_name WHERE id = value  
         $query = "SELECT * FROM $table WHERE id = :id";
@@ -81,6 +81,11 @@ class DB
         $sql->bindParam(':id', $id);
         $sql->execute();
         return $sql->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function first($table, $condition)
+    {
+        return $this->getWhere($table, $condition)[0] ?? null;
     }
 
     public function getWhere($table, $condition)

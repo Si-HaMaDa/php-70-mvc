@@ -76,7 +76,7 @@ class AuthController
 
         $user['password'] = sha1($user['password']);
 
-        $user = (new User())->firstRow($user);
+        $user = (new User())->first($user);
 
         if (count($user) < 1) {
             redirect_with_msgs(
