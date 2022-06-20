@@ -24,6 +24,10 @@ switch (get_route()) {
         (new AuthController())->login();
         break;
 
+    case '/do-login':
+        (new AuthController())->do_login();
+        break;
+
         // Start Admin Routes
 
     case '/admin':

@@ -38,6 +38,11 @@ abstract class MainModel
         return $sql->fetch(PDO::FETCH_ASSOC);
     }
 
+    public function firstRow($condition)
+    {
+        return $this->getWhere($condition)[0];
+    }
+
     public function getWhere($condition)
     {
         // SELECT column_name(s) FROM table_name WHERE column_name operator value AND column_name operator value ...  

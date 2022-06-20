@@ -58,4 +58,41 @@ class AuthController
     {
         require get_view_dir('auth/login');
     }
+
+    public function do_login()
+    {
+        $validated = [
+            'email' => (new Validations($_POST['email']))
+                ->notEmpty()
+                ->isEmail(),
+
+            'password' => (new Validations($_POST['password']))
+                ->notEmpty()
+                ->min(6)
+                ->max(30)
+        ];
+
+        $user = check_validation_and_get_data($validated);
+
+        $user['password'] = sha1($user['password']);
+
+        $user = (new User())->firstRow($user);
+
+        if (count($user) < 1) {
+            redirect_with_msgs(
+                make_url('/login'),
+                ['error' => 'Email or password is incorrect!']
+            );
+        }
+
+        $_SESSION['user']['is_login'] = true;
+        $_SESSION['user']['user_id'] = $user['id'];
+        $_SESSION['user']['user_email'] = $user['email'];
+        $_SESSION['user']['login_time'] = date('Y-m-d');
+
+        redirect_with_msgs(
+            make_url('/admin'),
+            ['success' => 'Logged successfully.']
+        );
+    }
 }
