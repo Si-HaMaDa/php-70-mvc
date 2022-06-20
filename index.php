@@ -3,11 +3,17 @@
 require __DIR__ . '/vendor/autoload.php';
 
 // Using needed Contollers
+use App\Controllers\AdminController;
 use App\Controllers\UserController;
 
 // Start routing
 switch (get_route()) {
         // Start Admin Routes
+
+    case '/admin':
+        $user = (new AdminController())->index();
+        break;
+
         // Start Admin User Routes
     case '/admin/users':
         (new UserController())->index();
