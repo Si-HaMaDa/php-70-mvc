@@ -1,6 +1,6 @@
 <!-- show error if exists -->
 <?php
-if (isset($_SESSION['errors'])) : ?>
+if (isset($_SESSION['errors']) && !empty($_SESSION['errors'])) : ?>
     <div class="alert alert-danger my-5">
         <!-- loop and show errors -->
         <?php foreach ($_SESSION['errors'] as $key => $error) : ?>

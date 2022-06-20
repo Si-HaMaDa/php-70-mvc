@@ -85,7 +85,7 @@
             <div class="col-12">
                 <label for="image" class="form-label">Image</label>
                 <input type="file" class="form-control" id="image" name="image" aria-label="Image" value="<?= get_old_value('image') ?>">
-                <img width="50%" src="<?= App\Models\User::get_image($user) ?>" alt="" srcset="">
+                <img class="img-thumbnail" width="50%" src="<?= App\Models\User::get_image($user) ?>" alt="<?= $user['title'] ?>">
                 <div class="invalid-feedback">
                     Valid Image is required.
                 </div>
