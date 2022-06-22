@@ -57,11 +57,9 @@ class Middleware
 
         $user = (new User)->find($_SESSION['user']['user_id']);
 
-        if ($user['role'] != 'admin') {
-            redirect_with_msgs(
-                make_url('/'),
-                ['error' => 'You must be with admin roleto access this page!']
-            );
-        }
+        if ($user['role'] == 'admin') return;
+
+        http_response_code(403);
+        get_view('403');
     }
 }

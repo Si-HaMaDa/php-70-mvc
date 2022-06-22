@@ -5,6 +5,7 @@ if (!function_exists('get_view')) {
     {
         extract($data);
         require __DIR__ . '/views/' . $view . '.view.php';
+        die;
     }
 }
 
