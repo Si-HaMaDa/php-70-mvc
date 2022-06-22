@@ -53,6 +53,18 @@
             </div>
 
             <div class="col-12 mb-4 row">
+                <label class="col-md-2">User Skills</label>
+                <div class="col-md-10">
+                    :
+                    <?php foreach ($user['skills'] as $skill) : ?>
+                        <a href="<?= make_url('/admin/skills/show?id=' . $skill['id']) ?>">
+                            <?= $skill['name'] ?> <br>
+                        </a>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+
+            <div class="col-12 mb-4 row">
                 <label class="col-md-2">Created At</label>
                 <div class="col-md-10">
                     : <?= $user['created_at'] ?>

@@ -152,4 +152,19 @@ class DB
         $sql = $this->connection->prepare($query);
         return $sql->execute();
     }
+
+    public function deleteWhere($table, $condition)
+    {
+        // DELETE FROM table_name WHERE column = value
+
+        $whereCondition = '';
+        foreach ($condition as $key => $value) {
+            $whereCondition .= "$key = '$value' AND ";
+        }
+        $whereCondition = rtrim($whereCondition, ' AND ');
+
+        $query = "DELETE FROM $table WHERE $whereCondition";
+        $sql = $this->connection->prepare($query);
+        return $sql->execute();
+    }
 }

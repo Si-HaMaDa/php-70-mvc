@@ -83,6 +83,19 @@
             </div>
 
             <div class="col-12">
+                <label for="skills" class="form-label">Your Skills</label>
+                <select class="form-select" name="skills[]" id="skills" multiple required>
+                    <?php foreach ($skills as $skill) : ?>
+                        <option <?= in_array($skill['id'], (array) get_old_value('skills', false)) ? 'selected' : '' ?> value="<?= $skill['id'] ?>"><?= $skill['name'] ?></option>
+                    <?php endforeach; ?>
+                    <?php get_old_value('skills') ?>
+                </select>
+                <div class="invalid-feedback">
+                    Valid Skill is required.
+                </div>
+            </div>
+
+            <div class="col-12">
                 <label for="image" class="form-label">Image</label>
                 <input type="file" class="form-control" id="image" name="image" aria-label="Image" value="<?= get_old_value('image') ?>">
                 <div class="invalid-feedback">

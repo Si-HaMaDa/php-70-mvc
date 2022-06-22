@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Database\DB;
+
 class User extends MainModel
 {
     public const UP_IMG_DIR = '/uploads/users/';
@@ -51,5 +53,28 @@ class User extends MainModel
         self::delete_image($id);
         // run delete method from parent class to delete the user from database
         parent::delete($id);
+    }
+
+    public function save_skills($user_id, $skills)
+    {
+        DB::object()->deleteWhere('skill_user', ['user_id' => $user_id]);
+        foreach ($skills as $skill) {
+            DB::object()->insert('skill_user', [
+                'skill_id' => $skill,
+                'user_id' => $user_id,
+            ]);
+        }
+        return true;
+    }
+
+    public function get_skills($user_id)
+    {
+        $sql = DB::object()->connection->prepare(
+            "SELECT skills.id, skills.name FROM skill_user
+            INNER JOIN skills ON skill_user.skill_id = skills.id
+            WHERE skill_user.user_id = $user_id"
+        );
+        $sql->execute();
+        return $sql->fetchAll(\PDO::FETCH_ASSOC);
     }
 }

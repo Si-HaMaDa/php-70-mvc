@@ -81,6 +81,20 @@
                     Valid title is required.
                 </div>
             </div>
+            
+            <div class="col-12">
+                <label for="skills" class="form-label">Your Skills</label>
+                <select class="form-select" name="skills[]" id="skills" multiple required>
+                    <?php foreach ($skills as $skill) : ?>
+                        <option <?= in_array($skill['id'], $user['skills']) ? 'selected' : '' ?> value="<?= $skill['id'] ?>"><?= $skill['name'] ?></option>
+                    <?php endforeach; ?>
+                    <?php get_old_value('skills') ?>
+                </select>
+                <div class="invalid-feedback">
+                    Valid Skill is required.
+                </div>
+            </div>
+
 
             <div class="col-12">
                 <label for="image" class="form-label">Image</label>

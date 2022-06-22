@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\Skill;
 use App\Models\User;
 use App\Traits\Pagination;
 use App\Validations\Validations;
@@ -33,6 +34,8 @@ class UserController
     public function create()
     {
         $title = 'Add User';
+
+        $skills = (new Skill())->all('id, name');
 
         require get_view_dir('users/create');
         // get_view('users/create', [
@@ -90,6 +93,11 @@ class UserController
 
         (new User())->insert($user);
 
+        $user_id = (new User())->connection->lastInsertId();
+
+
+        (new User())->save_skills($user_id, $_POST['skills']);
+
         redirect_with_msgs(
             make_url('/admin/users'),
             ['success' => 'User added successfully.']
@@ -104,6 +112,8 @@ class UserController
 
         if (!$user)
             redirect_with_msgs(make_url('/admin/users'), ['error' => 'User not found.']);
+
+        $user['skills'] = (new User())->get_skills($id);
 
         $title = 'Show User';
 
@@ -122,6 +132,19 @@ class UserController
 
         if (!$user)
             redirect_with_msgs(make_url('/admin/users'), ['error' => 'User not found.']);
+
+        $skill_ids = array_map(function ($arr) {
+            return $arr['id'];
+        }, (new User())->get_skills($id));
+
+        // foreach ((new User())->get_skills($id) as $skill) $skill_ids[] = $skill['id']
+
+        $user['skills'] = ((array) get_old_value('skills', false) ?: $skill_ids);
+
+        $skills = (new Skill())->all('id, name');
+
+        // var_dump($user['skills']);
+        // die;
 
         $title = 'Edit User';
 
@@ -184,6 +207,8 @@ class UserController
         else unset($user['image']);
 
         (new User())->update($user, ['id' => $id]);
+
+        (new User())->save_skills($id, $_POST['skills']);
 
         redirect_with_msgs(
             make_url('/admin/users'),
