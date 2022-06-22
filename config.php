@@ -14,3 +14,5 @@ define('MAIN_DOMAIN', 'http://localhost');
 define('SUB_FOLDER', '/php-70-mvc');
 define('FULL_URL', MAIN_DOMAIN . SUB_FOLDER);
 define('HOME_URL', '/');
+
+define('PER_PAGE', '10');

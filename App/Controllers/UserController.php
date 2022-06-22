@@ -3,23 +3,21 @@
 namespace App\Controllers;
 
 use App\Models\User;
+use App\Traits\Pagination;
 use App\Validations\Validations;
 
 class UserController
 {
+    use Pagination;
+
     public function index()
     {
-        $page = isset($_GET['page']) ? (abs((int) $_GET['page']) ?: 1) : 1;
 
-        $per_page = 10;
-
-        $start = ($page - 1) * $per_page;
-
-        $count = (new User())->count();
-
-        $total_pages = ceil($count / $per_page);
-
-        $next_page = ($page + 1) > $total_pages ? $total_pages : ($page + 1);
+        extract(
+            $this->paginate(
+                (new User())->count()
+            )
+        );
 
         $users = (new User())->all('*', [$start, $per_page]);
 
