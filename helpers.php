@@ -1,7 +1,5 @@
 <?php
 
-use App\Models\User;
-
 if (!function_exists('get_view')) {
     function get_view($view, $data = [])
     {
@@ -37,16 +35,6 @@ if (!function_exists('get_route')) {
         $route = rtrim($route, '/');
 
         return $route;
-    }
-}
-
-if (!function_exists('check_allowed_method')) {
-    function check_allowed_method($method)
-    {
-        if ($_SERVER['REQUEST_METHOD'] == $method) return;
-        http_response_code(405);
-        echo "This page is only for $method requests";
-        die();
     }
 }
 
@@ -145,50 +133,5 @@ if (!function_exists('get_old_value')) {
         if ($clear) unset($_SESSION['old'][$key]);
 
         return $value ?? '';
-    }
-}
-
-if (!function_exists('check_login')) {
-    function check_login()
-    {
-        if (
-            !isset($_SESSION['user']['is_login'])
-            || !$_SESSION['user']['is_login']
-        )
-            redirect_with_msgs(
-                make_url('/login'),
-                ['error' => 'You must be logged in to access this page!']
-            );
-    }
-}
-
-if (!function_exists('is_guest')) {
-    function is_guest()
-    {
-        if (
-            isset($_SESSION['user']['is_login'])
-            && $_SESSION['user']['is_login']
-        )
-            redirect_with_msgs(
-                make_url('/admin'),
-                ['error' => 'You already logged in!']
-            );
-    }
-}
-
-if (!function_exists('is_admin')) {
-    function is_admin()
-    {
-        check_login();
-
-        $user = (new User)->find($_SESSION['user']['user_id']);
-
-        if($user['role'] != 'admin'){
-            redirect_with_msgs(
-                make_url('/'),
-                ['error' => 'You must be with admin roleto access this page!']
-            );
-        }
-
     }
 }
