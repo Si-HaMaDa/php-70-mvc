@@ -65,6 +65,26 @@
             </tbody>
         </table>
     </form>
+    <nav aria-label="Page navigation example text-center">
+        <ul class="pagination">
+            <li class="page-item">
+                <a class="page-link" href="<?= make_url('/admin/users?page=1') ?>">First</a>
+            </li>
+
+            <?php for ($i = 1; $total_pages >= $i; $i++) : ?>
+
+                <li class="page-item <?= $page == $i ? 'active' : '' ?>">
+                    <a class="page-link " href="<?= make_url('/admin/users?page=' . $i) ?>">
+                        <?= $i ?></a>
+                </li>
+
+            <?php endfor; ?>
+
+            <li class="page-item">
+                <a class="page-link" href="<?= make_url('/admin/users?page=' . $total_pages) ?>">Last</a>
+            </li>
+        </ul>
+    </nav>
 </div>
 
 <script>

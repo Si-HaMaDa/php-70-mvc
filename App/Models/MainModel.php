@@ -19,10 +19,19 @@ abstract class MainModel
 
     abstract public function table(); // Return string "table name"
 
-    public function all()
+    public function count($column = 'id')
+    {
+        $query = "SELECT COUNT($column) FROM $this->table";
+        $sql = $this->connection->prepare($query);
+        $sql->execute();
+        return $sql->fetchColumn();
+    }
+
+    public function all($columns = '*', $pag = [])
     {
         // SELECT * FROM table_name; 
-        $query = "SELECT * FROM $this->table";
+        $query = "SELECT $columns FROM $this->table";
+        $query .= !empty($pag) ? " LIMIT " . implode(', ', $pag) : '';
         $sql = $this->connection->prepare($query);
         $sql->execute();
         return $sql->fetchAll(PDO::FETCH_ASSOC);
