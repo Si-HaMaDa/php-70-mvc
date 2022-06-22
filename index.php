@@ -6,6 +6,7 @@ require __DIR__ . '/vendor/autoload.php';
 use App\Controllers\AdminController;
 use App\Controllers\AuthController;
 use App\Controllers\UserController;
+use App\Controllers\SkillController;
 use App\Middleware\Middleware;
 
 // Start routing
@@ -46,6 +47,7 @@ switch (get_route()) {
         break;
 
         // Start Admin User Routes
+        // Start Users routes
     case '/admin/users':
         new Middleware('is_admin');
         (new UserController())->index();
@@ -80,6 +82,45 @@ switch (get_route()) {
         new Middleware('is_admin');
         (new UserController())->delete();
         break;
+        // End Users route
+
+
+        // Start Skills route
+    case '/admin/skills':
+        new Middleware('is_admin');
+        (new SkillController())->index();
+        break;
+
+    case '/admin/skills/create':
+        new Middleware('is_admin');
+        (new SkillController())->create();
+        break;
+
+    case '/admin/skills/store': // POST
+        new Middleware('is_admin|check_allowed_method:POST');
+        (new SkillController())->store();
+        break;
+
+    case '/admin/skills/show':
+        new Middleware('is_admin');
+        (new SkillController())->show();
+        break;
+
+    case '/admin/skills/edit':
+        new Middleware('is_admin');
+        (new SkillController())->edit();
+        break;
+
+    case '/admin/skills/update': // POST
+        new Middleware('is_admin|check_allowed_method:POST');
+        (new SkillController())->update();
+        break;
+
+    case '/admin/skills/delete':
+        new Middleware('is_admin');
+        (new SkillController())->delete();
+        break;
+        // End Skills route
         // End Admin User Routes
 
     default:
