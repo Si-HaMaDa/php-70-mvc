@@ -19,7 +19,7 @@ class UserController
 
         $total_pages = ceil($count / $per_page);
 
-        $next_page = ($page +1) > $total_pages ? $total_pages : ($page + 1);
+        $next_page = ($page + 1) > $total_pages ? $total_pages : ($page + 1);
 
         $users = (new User())->all('*', [$start, $per_page]);
 
@@ -196,13 +196,13 @@ class UserController
 
     public function delete()
     {
-        if (isset($_POST['id']) && is_array($_POST['id'])) {
-            foreach ($_POST['id'] as $id) {
-                $id = (int)$id;
-                (new User())->delete($id);
-            }
-        } else {
-            $id = (int)$_GET['id'];
+        $ids =
+            isset($_POST['id']) && is_array($_POST['id']) // if multiple ids are selected
+            ? (array) $_POST['id'] // convert to array if not
+            : [(int) $_REQUEST['id']]; // else make it an array with one id
+
+        foreach ($ids as $id) { // loop through each id and delete
+            $id = (int)$id;
             (new User())->delete($id);
         }
 
