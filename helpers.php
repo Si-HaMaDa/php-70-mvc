@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\User;
+
 if (!function_exists('get_view')) {
     function get_view($view, $data = [])
     {
@@ -171,5 +173,22 @@ if (!function_exists('is_guest')) {
                 make_url('/admin'),
                 ['error' => 'You already logged in!']
             );
+    }
+}
+
+if (!function_exists('is_admin')) {
+    function is_admin()
+    {
+        check_login();
+
+        $user = (new User)->find($_SESSION['user']['user_id']);
+
+        if($user['role'] != 'admin'){
+            redirect_with_msgs(
+                make_url('/'),
+                ['error' => 'You must be with admin roleto access this page!']
+            );
+        }
+
     }
 }

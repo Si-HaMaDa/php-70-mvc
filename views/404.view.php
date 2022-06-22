@@ -21,6 +21,7 @@
                     The page you’re looking for doesn’t exist.
                 </p>
                 <a href="<?= make_url(HOME_URL) ?>" class="btn btn-primary">Go Home</a>
+                <a href="<?= make_url('/logout') ?>" class="btn btn-danger">Logout</a>
             </div>
 
         </div>

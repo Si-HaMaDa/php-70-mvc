@@ -43,44 +43,52 @@ switch (get_route()) {
 
     case '/admin':
         check_login();
+        is_admin();
         $user = (new AdminController())->index();
         break;
 
         // Start Admin User Routes
     case '/admin/users':
         check_login();
+        is_admin();
         (new UserController())->index();
         break;
 
     case '/admin/users/create':
         check_login();
+        is_admin();
         (new UserController())->create();
         break;
 
     case '/admin/users/store': // POST
         check_login();
+        is_admin();
         check_allowed_method('POST');
         (new UserController())->store();
         break;
 
     case '/admin/users/show':
         check_login();
+        is_admin();
         (new UserController())->show();
         break;
 
     case '/admin/users/edit':
         check_login();
+        is_admin();
         (new UserController())->edit();
         break;
 
     case '/admin/users/update': // POST
         check_login();
+        is_admin();
         check_allowed_method('POST');
         (new UserController())->update();
         break;
 
     case '/admin/users/delete':
         check_login();
+        is_admin();
         (new UserController())->delete();
         break;
         // End Admin User Routes
