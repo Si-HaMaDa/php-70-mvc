@@ -16,7 +16,8 @@ switch (get_route()) {
         (new AuthController())->register();
         break;
 
-    case '/do-register':
+    case '/do-register': // POST
+        check_allowed_method('POST');
         (new AuthController())->do_register();
         break;
 
@@ -24,8 +25,13 @@ switch (get_route()) {
         (new AuthController())->login();
         break;
 
-    case '/do-login':
+    case '/do-login': // POST
+        check_allowed_method('POST');
         (new AuthController())->do_login();
+        break;
+
+    case '/logout':
+        (new AuthController())->logout();
         break;
 
         // Start Admin Routes

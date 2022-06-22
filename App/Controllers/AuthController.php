@@ -92,7 +92,22 @@ class AuthController
 
         redirect_with_msgs(
             make_url('/admin'),
-            ['success' => 'Logged successfully.']
+            ['success' => 'Logged in successfully.']
+        );
+    }
+
+    public function logout()
+    {
+        // session_destroy();
+
+        $_SESSION['user']['is_login'] = false;
+        $_SESSION['user']['user_id'] = null;
+        $_SESSION['user']['user_email'] = null;
+        $_SESSION['user']['login_time'] = date('Y-m-d');
+
+        redirect_with_msgs(
+            make_url('/login'),
+            ['success' => 'Logged out successfully.']
         );
     }
 }
