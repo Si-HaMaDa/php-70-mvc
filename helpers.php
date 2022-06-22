@@ -139,9 +139,37 @@ if (!function_exists('get_old_value')) {
         if (!isset($_SESSION['old'][$key])) return;
 
         $value = $_SESSION['old'][$key];
-        
+
         if ($clear) unset($_SESSION['old'][$key]);
 
         return $value ?? '';
+    }
+}
+
+if (!function_exists('check_login')) {
+    function check_login()
+    {
+        if (
+            !isset($_SESSION['user']['is_login'])
+            || !$_SESSION['user']['is_login']
+        )
+            redirect_with_msgs(
+                make_url('/login'),
+                ['error' => 'You must be logged in to access this page!']
+            );
+    }
+}
+
+if (!function_exists('is_guest')) {
+    function is_guest()
+    {
+        if (
+            isset($_SESSION['user']['is_login'])
+            && $_SESSION['user']['is_login']
+        )
+            redirect_with_msgs(
+                make_url('/admin'),
+                ['error' => 'You already logged in!']
+            );
     }
 }
