@@ -1,5 +1,5 @@
 
-## How to start with PHP TRAIN MVC
+## How to start with PHP 70 MVC
 
 
 ## Project setup
