@@ -25,4 +25,6 @@ php App/Database/InstallData.php
 ```
 Go to App/Database and run InstallData.php file to install dummy Data
 
-## And here you go...
+## Find Admin user details in your terminal after installing Data or in the Data files
+
+### And here you go...
